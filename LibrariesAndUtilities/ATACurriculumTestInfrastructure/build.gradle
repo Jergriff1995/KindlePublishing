@@ -1,0 +1,54 @@
+plugins {
+  id 'java'
+
+}
+
+repositories {
+  mavenCentral()
+}
+
+
+
+// for use with the Gradle Java Plugin
+sourceSets {
+  main {
+    java {
+      srcDirs = ['src/']
+    }
+    resources {
+      srcDirs = ['src/resources/']
+    }
+  }
+  test {
+    java {
+      srcDirs = ['tst/']
+    }
+    resources {
+      srcDirs = ['tst/resources/']
+    }
+  }
+}
+
+dependencies {
+
+  implementation "com.google.dagger:dagger:2.15"
+  annotationProcessor"com.google.dagger:dagger-compiler:2.15"
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+  implementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+  implementation group: 'org.junit.platform', name: 'junit-platform-gradle-plugin', version: '1.2.0'
+  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.2'
+  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.0.0-M4'
+// https://mvnrepository.com/artifact/commons-io/commons-io
+  implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+  // https://mvnrepository.com/artifact/org.reflections/reflections
+  implementation group: 'org.reflections', name: 'reflections', version: '0.10.2'
+  // https://mvnrepository.com/artifact/org.mockito/mockito-core
+  implementation group: 'org.mockito', name: 'mockito-core', version: '4.3.1'
+
+
+  implementation group: 'com.google.guava', name: 'guava', version: '27.0.1-android'
+//Thanks for using https://jar-download.com
+
+
+}

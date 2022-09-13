@@ -1,0 +1,12 @@
+@startuml
+
+"execute()"
+
+"removeBookFromCatalogue()"
+
+actor RemoveBookFromCatalogActivity
+actor CatalogDao
+
+RemoveBookFromCatalogActivity --> CatalogDao: RemoveBookFromCatalogResponse
+CatalogDao --> RemoveBookFromCatalogActivity: BookNotFoundException
+@enduml

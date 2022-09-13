@@ -1,0 +1,100 @@
+#!/usr/bin/env python2.7
+
+"""
+A hook script to verify that we're not amending a commit on another branch.
+Called by "git commit" with the name of the file that has the commit message,
+and *optionally* the method used to enter the message, followed *optionally*
+by the SHA of the commit being amended if --amend was specified.
+"""
+
+import argparse
+import os
+import re
+import sys
+import subprocess
+
+git_all_revs_cmd = "git rev-list {}"
+git_my_rev_cmd = "git rev-list --max-count=1 {}"
+git_tracking_rev_cmd = "git rev-parse --verify -q @{upstream}"
+git_base_cmd = "git merge-base {} {}"
+try:
+    from subprocess import DEVNULL # Python 3.3
+except ImportError:
+    DEVNULL = open(os.devnull, 'wb')
+
+def read_args():
+    commit_msg_filepath = sys.argv[1]
+    commit_type = None
+    commit_hash = None
+    if len(sys.argv) > 2:
+        commit_type = sys.argv[2]
+    if len(sys.argv) > 3:
+        commit_hash = sys.argv[3]
+    return (commit_msg_filepath, commit_type, commit_hash)
+
+
+def fail_if_commit_in_branch(branch, commit):
+    try:
+        upstream_revs = subprocess.check_output(git_all_revs_cmd.format(branch).split()).decode("utf-8").splitlines()
+    except subprocess.CalledProcessError as e:
+        print("FATAL: Git error getting revs for {}!\n{}".format(branch, e.output))
+        sys.exit(999)
+
+    if commit in upstream_revs:
+        print("History change forbidden; found {} in upstream revisions".format(commit))
+        sys.exit(1)
+
+def find_head_branch():
+    try:
+        branch_commit = subprocess.check_output(git_my_rev_cmd.format("HEAD").split()).decode("utf-8").rstrip()
+        return branch_commit
+    except subprocess.CalledProcessError as e:
+        # This should never happen
+        print("FATAL: Git failure finding branch HEAD hash!\n{}".format(e.output))
+        sys.exit(998)
+
+def find_tracking_branch():
+    try:
+        tracking = subprocess.check_output(
+            git_tracking_rev_cmd.split(),
+            stderr=DEVNULL).decode("utf-8").rstrip()
+        return tracking
+    except subprocess.CalledProcessError as e:
+        print("FATAL: No tracking branch to compare with!")
+        sys.exit(3)
+
+def fail_if_divergence(commit, tracking):
+    try:
+        base_commit = subprocess.check_output(git_base_cmd.format(commit, tracking).split()).decode("utf-8").rstrip()
+    except subprocess.CalledProcessError as e:
+        print("FATAL: Git failure finding hashes for branches!\n{}".format(e.output))
+
+    if (base_commit != tracking and base_commit != commit):
+        print("Amend forbidden while branches diverge. Stash changes and rebase before amending.")
+        sys.exit(2)
+
+def is_rebase():
+    branches = subprocess.check_output("git branch".split()).decode("utf-8").splitlines()
+    # Each line of the return from `git branch`
+    for branch in branches:
+        # Identify the current branch
+        if "*" in branch:
+            return "no branch, rebasing" in branch
+
+def main():
+    commit_msg_filepath, commit_type, commit_hash = read_args()
+
+    # Only run checks if we're amending
+    if not is_rebase():
+        if commit_hash is not None:
+            # Find the hash of the latest commit on the branch
+            branch_commit = find_head_branch()
+            # And its tracking branch
+            tracking_commit = find_tracking_branch()
+            # Fail on any invalid state
+            #fail_if_divergence(branch_commit, tracking_commit)
+            fail_if_commit_in_branch("origin/HEAD", branch_commit)
+            fail_if_commit_in_branch(tracking_commit, branch_commit)
+
+if __name__ == "__main__":
+    main()

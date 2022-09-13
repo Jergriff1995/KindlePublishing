@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.2//EN"
+        "http://checkstyle.org/dtds/suppressions_1_2.dtd">
+<suppressions>
+    <suppress checks="." files="src/resources/.*\.[PpJj][NnPp][Gg]" />
+    <suppress checks="JavadocType" files="." />
+    <suppress checks="AvoidStaticImport" files="src/test/java" />
+    <suppress checks="AvoidStaticImport" files="tst/com/amazon" />
+    <suppress checks="(Javadoc|MethodName)" files="src/test/java" />             <!-- gradle tests -->
+    <suppress checks="(Javadoc|MethodName)" files="tst/com/amazon" />            <!-- HappyTrails tests -->
+    <suppress checks="(Javadoc|MethodName)" files="src/com/amazon/.*/test/" />   <!-- integration tests -->
+    <suppress checks="(Javadoc|MethodName)" files="src/com/amazon/.*/tct/tests/" />   <!-- tct tests -->
+    <!-- TODO: add project path -->
+</suppressions>

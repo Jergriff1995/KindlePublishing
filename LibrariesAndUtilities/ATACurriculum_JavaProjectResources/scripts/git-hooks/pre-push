@@ -1,0 +1,98 @@
+#!/usr/bin/env python2.7
+"""
+A hook script to verify what is about to be pushed.  Called by "git
+push" after it has checked the remote status, but before anything has been
+pushed.  If this script exits with a non-zero status nothing will be pushed.
+
+Information about the commits which are being pushed is supplied as lines to
+the standard input in the form:
+
+  <local ref> <local sha1> <remote ref> <remote sha1>
+
+This hook prevents the pushing of commits whose commit messages are missing a CR link, e.g. cr https://code.amazon.com/review/CR-38262748, or have a CR link with the same ID as another commit
+that will be pushed.
+"""
+import argparse
+import sys
+import subprocess
+import re
+
+git_rev_list_template = 'git rev-list {}'
+git_branch_contains_template = 'git branch --contains {}'
+
+def parse_args(raw_string):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('local_ref', help='local ref containing branch name')
+    parser.add_argument('local_sha1', help='SHA for the HEAD of the commits locally')
+    parser.add_argument('remote_ref', help='remote ref containing name of branch being pushed to')
+    parser.add_argument('remote_sha1', help='SHA for the head of the remote branch being pushed to')
+
+    return parser.parse_args(raw_string.strip().split(' '))
+
+
+def find_range_of_shas_being_pushed(local_sha1, remote_sha1):
+    z40 = '0' * 40
+    if local_sha1 == z40:
+        # Deleting branch. Don't handle this case.
+        return ''
+    elif remote_sha1 == z40:
+        # New branch, examine all commits.
+        return local_sha1
+    else:
+        # Update to existing branch, examine new commits - commits ranging from the remote SHA to the local.
+        return remote_sha1 + '..' + local_sha1
+
+
+def validate_each_new_commit_has_individual_cr_link(commit_range):
+    cr_id_set = set()
+
+    # Read each commit message in the range one at a time.
+    sha1s = subprocess.check_output(git_rev_list_template.format(commit_range).split(' ')).decode("utf-8").splitlines()
+    for sha1 in sha1s:
+        commit_message = subprocess.check_output(['git', 'log', '-1', sha1]).decode("utf-8")
+        cr_id_search = re.search('(http)?s?(://)?(www.)?code.amazon.com/reviews/CR-([0-9]+)', commit_message)
+
+        # If there is no CR link present, do not push.
+        if not cr_id_search:
+            print('Missing cr link in commit {}. Every commit must have a unique cr link, not pushing.\n\033[00m'
+                  .format(sha1))
+            sys.exit(1)
+
+        cr_id = cr_id_search.group(4)
+
+        # If another commit has the same CR ID, do not push.
+        if cr_id in cr_id_set:
+            print('Commit {} has the same CR link as another commit. '
+                  'Every commit must have a unique cr link, not pushing.\n\033[00m'.format(sha1))
+            sys.exit(1)
+        else:
+            cr_id_set.add(cr_id)
+
+def check_if_pull_necessary(remote_head):
+    current_branch = subprocess.check_output('git symbolic-ref --short HEAD'.split(' ')).strip()
+    branch_results = subprocess.check_output(git_branch_contains_template.format(remote_head).split(' ')).decode("utf-8").splitlines()
+    for result in branch_results:
+        branch_name = result.replace('*', '').strip()
+        # local branch has HEAD from remote branch being pushed to
+        if branch_name == current_branch:
+            return
+    print('Your local branch does not have the latest commits from the remote branch you are pushing to. '
+          'Try running \'git pull --rebase\' and try again.\n')
+    sys.exit(1)
+
+def main():
+    # Print error messages in red.
+    print('\033[91m')
+
+    for line in sys.stdin:
+        args = parse_args(line)
+        check_if_pull_necessary(args.remote_sha1)
+        range = find_range_of_shas_being_pushed(args.local_sha1, args.remote_sha1)
+        if range == '':
+            continue
+        validate_each_new_commit_has_individual_cr_link(range)
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()

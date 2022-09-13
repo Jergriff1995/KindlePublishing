@@ -1,0 +1,44 @@
+@startuml
+
+class GetBookActivity{
++ execute(GetBookRequest) : GetBookResponse
+}
+class GetPublishingStatusActivity{}
+class RemoveBookFromCatalogActivity{
++ execute(RemoveBookFromCatalogRequest) : RemoveBookFromCatalogResponse
+}
+class SubmitBookForPublishingActivity{
++ execute(SubmitBookForPublishingRequest) : SubmitBookForPublishingResponse
+}
+class RecommendationsServiceClient{}
+class CatalogDao{
+dynamoDBMapper : DynamoDBMapper
+}
+class PublishingStatusDao{
+dynamoDBMapper : DynamoDBMapper}
+class CatalogItemVersion{
+@DynamoDBHashKey  bookId : String
+@DynamoDBRangeKey version : int
+      inactive : boolean
+      title : String
+      author : String
+      text : String
+      genre : BookGenre
+}
+class PublishingStatusItem{
+@DynamoDBHashKey  publishingRecordId : String
+@DynamoDBRangeKey status : PublishingRecordStatus
+      statusMessage : String
+      bookId : String
+     }
+class BookNotFoundException{}
+class PublishingStatusNotFoundException{}
+
+GetBookActivity *-- CatalogDao
+GetBookActivity *-- RecommendationsServiceClient
+SubmitBookForPublishingActivity *-- PublishingStatusDao
+CatalogItemVersion *-- CatalogDao
+PublishingStatusItem *-- PublishingStatusDao
+CatalogDao *-- BookNotFoundException
+
+@enduml

@@ -1,0 +1,13 @@
+.DS_Store
+build
+.idea
+*.iml
+.env
+.classpath
+.settings
+annotation-generated-src
+annotation-generated-tst
+/configurations/stack-exec
+
+# Ignore Gradle project-specific cache directory
+.gradle

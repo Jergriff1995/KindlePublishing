@@ -1,0 +1,33 @@
+#!/usr/bin/env python2.7
+
+"""
+A hook script to verify that the commit message for a project.
+Includes:
+* Verifying a task tag is included in the commit.
+"""
+
+import argparse
+import os
+import re
+import sys
+import subprocess
+
+valid_task_tags = '\[(PPT0|MT0)\d\]'
+
+def validate_commit_msg_has_task_tag(commit_msg):
+    tag_search = re.search(valid_task_tags, commit_msg)
+
+    if not tag_search:
+        print('Missing or invalid task tag, e.g. [PPT01], in commit message:\n\"{}\"\nEvery commit message must have a task tag, not committing.\n\033[00m'
+            .format(commit_msg.rstrip()))
+        sys.exit(1)
+
+def main():
+    commit_msg_filepath = sys.argv[1] # only one argument to the commit-msg hook
+
+    with open(commit_msg_filepath) as commit_msg_file:
+        commit_msg = commit_msg_file.read().decode("utf-8")
+        validate_commit_msg_has_task_tag(commit_msg)
+
+if __name__ == "__main__":
+    main()

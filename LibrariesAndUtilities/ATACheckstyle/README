@@ -1,0 +1,23 @@
+These are the Amazon Technical Academy (ATA) agreed upon checkstyle and they should be referenced from each Java package containing code for ATA.
+ 
+ == How to use? ==
+ 
+ 1. Make sure the ATACheckstyle package is added to your version-set.
+ 
+ 2. Add ATACheckstyle to the build dependencies in your Config. (Note that these rules do not work with Checkstyle 3.3.)
+ 
+     ...
+     build-tools = {
+         1.0 = {
+             ATACheckstyle = 1.1;
+             HappierTrails = 3.4;
+             ...
+         };
+     };
+     ...
+ 
+ 3. Refer to the appropriate checkstyle definition file in your build.xml. As always, these lines go with other Happier-Trails overrides, so after importing happytrails.xml and before importing happier-trails.xml.
+ 
+     <property name="checkstyle.configuration.file" value="${bp:[ATACheckstyle]pkg.src}/configuration/checkstyle/checkstyle.xml"/>
+     <property name="checkstyle.suppression.filter" value="${bp:[ATACheckstyle]pkg.src}/configuration/checkstyle/suppressions.xml"/>
+

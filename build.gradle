@@ -1,0 +1,185 @@
+//import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+//import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'jacoco'
+    id 'com.github.spotbugs' version '4.7.1'
+    id 'com.adarshr.test-logger' version '3.0.0'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'net.ltgt.apt-idea' version "0.15"
+
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+repositories {
+    mavenCentral()
+}
+
+checkstyle {
+//    sourceSets = [sourceSets.main, sourceSets.test]
+    sourceSets = [sourceSets.main]
+    configFile = file("$rootDir/LibrariesAndUtilities/ATACheckstyle/configuration/checkstyle/checkstyle.xml")
+    configProperties.put('checkstyle.suppression.filter', "$rootDir/LibrariesAndUtilities/ATACheckstyle/configuration/checkstyle/suppressions.xml")
+    ignoreFailures = true
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80
+            }
+        }
+    }
+}
+
+// for use with the Gradle Java Plugin
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/']
+        }
+        resources {
+            srcDirs = ['src/resources/']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['tst/']
+        }
+        resources {
+            srcDirs = ['tst/resources/']
+        }
+    }
+}
+
+spotbugs {
+    spotbugsTest.enabled = false
+    ignoreFailures = true
+}
+
+spotbugsMain {
+    reports {
+        html {
+            enabled = true
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+
+    implementation 'com.google.guava:guava:30.1.1-jre'
+
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.10.0'
+
+    implementation files("$rootDir/LibrariesAndUtilities/ATAResources.jar")
+    implementation project('LibrariesAndUtilities:LessonPlanResources')
+    implementation project('LibrariesAndUtilities:ATACurriculum_JavaProjectResources')
+    implementation project('LibrariesAndUtilities:ATACurriculum_RecommendationsService')
+    implementation project('LibrariesAndUtilities:ATACurriculumTestInfrastructure')
+
+    implementation group: 'javax.measure', name: 'unit-api', version: '1.0'
+
+
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation group: 'com.google.dagger', name: 'dagger', version: '2.15'
+
+    implementation "com.google.dagger:dagger:2.15"
+    annotationProcessor"com.google.dagger:dagger-compiler:2.15"
+
+    // https://mvnrepository.com/artifact/org.testng/testng
+    implementation group: 'org.testng', name: 'testng', version: '6.14.3'
+
+
+    // Added for AWS Lambda Functions
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+    implementation 'com.amazonaws:aws-lambda-java-events:2.2.9'
+    runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.2.0'
+    implementation 'com.amazonaws:aws-java-sdk-cloudwatch:1.12.167'
+
+
+    // Added for using log4j usage
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+
+    //Spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+}
+
+test {
+    useJUnitPlatform()
+
+    testlogger {
+        theme 'plain'
+        logLevel 'quiet'
+    }
+
+    testLogging {
+        // set options for log level DEBUG and INFO
+        debug {
+//            events TestLogEvent.STARTED,
+//                    TestLogEvent.FAILED,
+//                    TestLogEvent.PASSED,
+//                    TestLogEvent.SKIPPED,
+//                    TestLogEvent.STANDARD_ERROR,
+//                    TestLogEvent.STANDARD_OUT
+//            exceptionFormat TestExceptionFormat.FULL
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+
+                def scoringPercentage = 10 - result.failedTestCount
+                scoringPercentage = scoringPercentage / 10
+                println("Exit Result for Scoring: " + scoringPercentage)
+            }
+        }
+    }
+}
+
+project.configurations.implementation.setCanBeResolved(true)
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "com.amazon.ata.kindlepublishingservice.Main",
+                "Class-Path": configurations.implementation.collect { it.name }.join(' ')
+        )
+    }
+    dependsOn('dependencies')
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('./lib') {
+        from configurations.runtimeClasspath
+    }
+}

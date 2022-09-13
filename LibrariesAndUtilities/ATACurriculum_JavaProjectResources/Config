@@ -1,0 +1,41 @@
+# -*-perl-*-
+
+package.ATACurriculum_JavaProjectResources = {
+    interfaces = (1.0);
+
+    dependencies = {
+        1.0 = {
+            BONESLambdaJavaRouter = 2.3;
+            JakartaCommons-lang3 = 3.x;
+            Reflections = 0.9.12;
+            GoogleGuava = 30.x;
+        };
+    };
+
+    test-dependencies = {
+        1.0 = {
+            JUnit5 = 5.x;
+        };
+    };
+
+    build-system = brazil-gradle;
+
+    build-tools = {
+        1.0 = {
+            JDK8 = 1.0;
+            BrazilGradle = 5.x;
+            BrazilGradleQualityDefaults = 5.x;
+        };
+    };
+
+    resolves-conflict-depdencies = {
+        1.0 = {
+            JakartaCommons-lang3 = 3.x;
+            Gson = 2.6.x;
+        };
+    };
+
+    targets = {
+        ATACurriculum_JavaProjectResources-1.0 = { type = javalibrary; };
+    };
+};

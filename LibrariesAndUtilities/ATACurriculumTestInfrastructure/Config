@@ -1,0 +1,44 @@
+# -*-perl-*-
+
+package.ATACurriculumTestInfrastructure = {
+    interfaces = (1.0);
+
+    dependencies = {
+        1.0 = {
+            GoogleGuava = 30.x;
+            JakartaCommons-IO = 2.5;
+            JakartaCommons-lang3 = 3.x;
+            Log4j-api = 2.x;
+            Reflections = 0.9.12;
+
+            Mockito = 2.x;
+            JUnit5 = 5.x;
+        };
+    };
+
+    test-dependencies = {
+        1.0 = {
+        };
+    };
+
+    build-system = brazil-gradle;
+
+    build-tools = {
+        1.0 = {
+            JDK8 = 1.0;
+            BrazilGradle = 5.x;
+            BrazilGradleQualityDefaults = 5.x;
+
+            ATACheckstyle = 1.1;
+        };
+    };
+
+    resolves-conflict-dependencies = {
+        1.0 = {
+        };
+    };
+
+    targets = {
+        ATACurriculumTestInfrastructure-1.0 = { type = javalibrary; };
+    };
+};

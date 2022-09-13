@@ -1,0 +1,139 @@
+{
+    "CatalogItemVersions": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "author": {
+                        "S": "Kelly Harms"
+                    },
+                    "bookId": {
+                        "S": "book.ac510a76-008c-4478-b9f3-c277d74fa305"
+                    },
+                    "genre": {
+                        "S": "ROMANCE"
+                    },
+                    "inactive": {
+                        "N": "1"
+                    },
+                    "text": {
+                        "S": "There are a lot of people you don't expect to run into in small-town Pennsylvania. And a few you do. I run into my best friend, Lena, almost every day -- she teaches in the same school that I do, so when we don't go out of our way to see each other, we're seeing each other anyway, in the halls, the teachers' lounge, the parking lot, scraping frost off our cars as late as April."
+                    },
+                    "title": {
+                        "S": "The Overdue Life of Amy Byler"
+                    },
+                    "version": {
+                        "N": "1"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "author": {
+                        "S": "Kelly Harms"
+                    },
+                    "bookId": {
+                        "S": "book.ac510a76-008c-4478-b9f3-c277d74fa305"
+                    },
+                    "genre": {
+                        "S": "ROMANCE"
+                    },
+                    "inactive": {
+                        "N": "0"
+                    },
+                    "text": {
+                        "S": "There are a lot of people you don't expect to run into in small-town Pennsylvania. And a few you do. I run into my best friend, Lena, almost every day -- she teaches in the same school that I do, so when we don't go out of our way to see each other, we're seeing each other anyway, in the halls, the teachers' lounge, the parking lot, scraping frost off our cars as late as April."
+                    },
+                    "title": {
+                        "S": "The Overdue Life of Amy Byler"
+                    },
+                    "version": {
+                        "N": "2"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "author": {
+                        "S": "Shalane Flanagan"
+                    },
+                    "bookId": {
+                        "S": "book.b3750190-2a30-4ca8-ae1b-73d0d202dc41"
+                    },
+                    "genre": {
+                        "S": "COOKING"
+                    },
+                    "inactive": {
+                        "N": "1"
+                    },
+                    "text": {
+                        "S": "When I moved off the track, from racing 5,000 m and 10,000 m distances to the marathon, my training required doubling the amount of miles I was accustomed to. This was the first time I actually realized that my diet and the food I was putting in my body were crucial to getting me through this additional training. Running 17 miles a day or a grueling long 24 miles left me hangry!!! I found myself reaching for pretzels, chips, processed bars, or cereal as snacks between meals or before bed. I knew this wasn't ideal, but I was hungry ALL THE TIME!!"
+                    },
+                    "title": {
+                        "S": "Run Fast. Cook Fast. Eat Slow.: Quick-Fix Recipes for Hangry Athletes: A Cookbook"
+                    },
+                    "version": {
+                        "N": "1"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "author": {
+                        "S": "Shalane Flanagan"
+                    },
+                    "bookId": {
+                        "S": "book.b3750190-2a30-4ca8-ae1b-73d0d202dc41"
+                    },
+                    "genre": {
+                        "S": "COOKING"
+                    },
+                    "inactive": {
+                        "N": "0"
+                    },
+                    "text": {
+                        "S": "When I moved off the track, from racing 5,000 m and 10,000 m distances to the marathon, my training required doubling the amount of miles I was accustomed to. This was the first time I actually realized that my diet and the food I was putting in my body were crucial to getting me through this additional training. Running 17 miles a day or a grueling long 24 miles left me hangry!!! I found myself reaching for pretzels, chips, processed bars, or cereal as snacks between meals or before bed. I knew this wasn't ideal, but I was hungry ALL THE TIME!!"
+                    },
+                    "title": {
+                        "S": "Run Fast. Cook Fast. Eat Slow.: Quick-Fix Recipes for Hangry Athletes: A Cookbook"
+                    },
+                    "version": {
+                        "N": "2"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "author": {
+                        "S": "Maurice Sendak"
+                    },
+                    "bookId": {
+                        "S": "book.69c16130-60b5-485a-8326-7f79d3feb36d"
+                    },
+                    "genre": {
+                        "S": "FANTASY"
+                    },
+                    "inactive": {
+                        "N": "0"
+                    },
+                    "text": {
+                        "S": "The night wore his wolf suit and made mischief of one kind and another his mother called him \"WILD THING!\" and Max said \"I’LL EAT YOU UP!\" so he was sent to bed without eating anything. That very night in Max’s room a forest grew and grew and grew until his ceiling hung with vines and the walls became the world all around and an ocean tumbled by with a private boat for Max and he sailed off through night and day and in and out of weeks and almost over a year to where the wild things are. And when he came to the place where the wild things are they roared their terrible roars and gnashed their terrible teeth and rolled their terrible eyes and showed their terrible claws till Max said \"BE STILL!\" and tamed with the magic trick of staring into all their yellow eyes without blinking once and they were frightened and called him the most wild thing of all and made him king of all wild things. \"And now,\" cried Max, \"let the wild rumpus start!\" \"Now stop!\" Max said and sent the wild things off to bed without their supper. And Max the king of all wild things was lonely and wanted to be where someone loved him best of all. Then all around from far away across the world he smelled good things to eat so he gave up being king of where the wild things are. But the wild things cried, \"Oh please don’t go we’ll eat you up-we love you so!\" And Max said, \"No!\" The wild things roared their terrible roars and gnashed their terrible teeth and rolled their terrible eyes and showed their terrible claws but Max stepped into his private boat and waved good-bye and sailed back over a year and in and out of weeks and through a day and into the night of his very own room where he found his supper waiting for him and it was still hot."
+                    },
+                    "title": {
+                        "S": "Where the Wild Things Are"
+                    },
+                    "version": {
+                        "N": "1"
+                    }
+                }
+            }
+        }
+    ]
+}

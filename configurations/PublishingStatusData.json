@@ -1,0 +1,154 @@
+{
+    "PublishingStatus": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.bdd319cb-05eb-494b-983f-6e1b983c4c46"
+                    },
+                    "status": {
+                        "S": "QUEUED"
+                    },
+                    "statusMessage": {
+                        "S": "Queued for publishing at 2020-03-01 23:03:51.331"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.bdd319cb-05eb-494b-983f-6e1b983c4c46"
+                    },
+                    "status": {
+                        "S": "IN_PROGRESS"
+                    },
+                    "statusMessage": {
+                        "S": "Processing started at 2020-03-01 23:04:49.331"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.bdd319cb-05eb-494b-983f-6e1b983c4c46"
+                    },
+                    "status": {
+                        "S": "SUCCESSFUL"
+                    },
+                    "statusMessage": {
+                        "S": "Book published at 2020-03-01 23:05:37.321"
+                    },
+                    "bookId": {
+                        "S": "book.b3750190-2a30-4ca8-ae1b-73d0d202dc41"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.2bc206a1-5b41-4782-a260-976c0a291825"
+                    },
+                    "status": {
+                        "S": "QUEUED"
+                    },
+                    "statusMessage": {
+                        "S": "Queued for publishing at 2020-03-02 03:04:00.381"
+                    },
+                    "bookId": {
+                        "S": "book.b3750190-2a30-4ca8-ae1b-73d0d202dc41"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.2bc206a1-5b41-4782-a260-976c0a291825"
+                    },
+                    "status": {
+                        "S": "IN_PROGRESS"
+                    },
+                    "statusMessage": {
+                        "S": "Processing started at 2020-03-03 03:04:49.331"
+                    },
+                    "bookId": {
+                        "S": "book.b3750190-2a30-4ca8-ae1b-73d0d202dc41"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.2bc206a1-5b41-4782-a260-976c0a291825"
+                    },
+                    "status": {
+                        "S": "SUCCESSFUL"
+                    },
+                    "statusMessage": {
+                        "S": "Book published at 2020-03-02 03:05:37.456"
+                    },
+                    "bookId": {
+                        "S": "book.b3750190-2a30-4ca8-ae1b-73d0d202dc41"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.4bd41646-b1b2-4627-8304-5180c9b54e00"
+                    },
+                    "status": {
+                        "S": "QUEUED"
+                    },
+                    "statusMessage": {
+                        "S": "Queued for publishing at 2020-02-28 13:03:22.111"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.4bd41646-b1b2-4627-8304-5180c9b54e00"
+                    },
+                    "status": {
+                        "S": "IN_PROGRESS"
+                    },
+                    "statusMessage": {
+                        "S": "Processing started at 2020-02-28 13:03:29.111"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "publishingRecordId": {
+                        "S": "publishingstatus.4bd41646-b1b2-4627-8304-5180c9b54e00"
+                    },
+                    "status": {
+                        "S": "FAILED"
+                    },
+                    "statusMessage": {
+                        "S": "Book publish failed at 2020-02-28 13:04:22.911 Additional Notes: Failed to convert text."
+                    },
+                    "bookId": {
+                        "S": "book.69c16130-60b5-485a-8326-7f79d3feb36d"
+                    }
+                }
+            }
+        }
+    ]
+}

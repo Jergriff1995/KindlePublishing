@@ -1,0 +1,41 @@
+//import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+//import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+plugins {
+    id 'java'
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+
+// for use with the Gradle Java Plugin
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/']
+        }
+        resources {
+            srcDirs = ['src/resources/']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['tst/']
+        }
+        resources {
+            srcDirs = ['tst/resources/']
+        }
+    }
+}
+
+dependencies {
+
+    implementation "com.google.dagger:dagger:2.15"
+    annotationProcessor"com.google.dagger:dagger-compiler:2.15"
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+}

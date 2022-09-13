@@ -1,0 +1,14 @@
+.gradle/
+.idea/
+/build
+/buildSrc/build/
+/gradle/
+/gradlew
+/gradlew.bat
+/wrapper/
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
